@@ -17,10 +17,7 @@
       <span class="text-sm font-medium text-gray-900">NAU Voting</span>
     </div>
     <div class="flex gap-2 flex-wrap">
-      <a href="admin-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Admin</a>
       <a href="voter-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Voter</a>
-      <a href="candidate-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Candidate</a>
-      <a href="results.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Results</a>
       <button onclick="logout()" class="h-[34px] px-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium text-white transition-colors inline-flex items-center">Logout</button>
     </div>
   </nav>
@@ -57,7 +54,7 @@
         </div>
         <div>
           <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Voting Window</label>
-          <p id="voteWindow" class="text-sm font-medium text-gray-900 mt-2.5">Select an election</p>
+          <div id="voteWindow" class="text-sm text-gray-400 mt-2.5">Select an election</div>
         </div>
       </div>
 
@@ -66,8 +63,8 @@
       <h2 id="voteTitle" class="text-base font-semibold text-gray-900">Voting Page</h2>
     </section>
 
-    <!-- Roles / Candidate Cards -->
-    <section id="voteRoles" class="grid grid-cols-1 md:grid-cols-2 gap-4"></section>
+    <!-- Roles / Candidate Cards — single column so each role spans full width -->
+    <section id="voteRoles" class="flex flex-col gap-4"></section>
 
   </main>
 
