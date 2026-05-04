@@ -15,7 +15,7 @@ async function loadVoterDashboard() {
   } catch (err) { showMessage('voterMessage', err.message, 'error'); }
 }
 
-function statusBadge(status) {
+function statusBadge(status, label) {
   const map = {
     active:   'bg-green-50 text-green-700',
     draft:    'bg-amber-50 text-amber-700',
@@ -27,7 +27,7 @@ function statusBadge(status) {
   const cls = map[status] || 'bg-gray-100 text-gray-500';
   return `<span class="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1 rounded-full ${cls}">
     <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
-    ${escapeHtml(status)}
+    ${label || escapeHtml(status)}
   </span>`;
 }
 
@@ -50,7 +50,7 @@ function renderVoterElections(elections) {
       <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm flex flex-col gap-3">
         <div class="flex items-center gap-2 flex-wrap">
           ${statusBadge(e.status)}
-          ${e.results_published ? statusBadge('approved').replace(escapeHtml('approved'), 'Results Published') : ''}
+          ${e.results_published ? statusBadge('approved', 'Results Published') : ''}
         </div>
         <div>
           <h3 class="text-base font-semibold text-gray-900 mb-1">${escapeHtml(e.title)}</h3>
