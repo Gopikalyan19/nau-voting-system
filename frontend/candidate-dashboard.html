@@ -103,6 +103,144 @@
 
   <script src="js/api.js"></script>
   <script src="js/voter.js"></script>
-   <script src="js/admin.js"></script>
+   <script>
+const elections = [
+  {
+    id: "election_1",
+    title: "NAU Campus Club Election",
+    description: "Apply for NAU Campus Club leadership roles.",
+    roles: [
+      { id: "role_1", title: "Campus Ambassador" },
+      { id: "role_2", title: "Vice President" },
+      { id: "role_3", title: "Events & Programs Head" },
+      { id: "role_4", title: "Content & Marketing Head" },
+      { id: "role_5", title: "Outreach & Partnerships Head" }
+    ]
+  }
+];
+
+const voterName = document.getElementById("voterName");
+const voterMessage = document.getElementById("voterMessage");
+const electionCards = document.getElementById("electionCards");
+const electionSelect = document.getElementById("candidateElectionSelect");
+const roleSelect = document.getElementById("candidateRoleSelect");
+const form = document.getElementById("candidateApplyForm");
+
+const currentUser = JSON.parse(localStorage.getItem("currentUser")) || {
+  name: "Member",
+  email: "candidate@example.com"
+};
+
+voterName.textContent = currentUser.name || "Member";
+
+function showMessage(message, type = "success") {
+  voterMessage.className =
+    type === "error"
+      ? "mb-6 px-4 py-3 rounded-lg border border-red-100 bg-red-50 text-sm text-red-700"
+      : "mb-6 px-4 py-3 rounded-lg border border-indigo-100 bg-indigo-50 text-sm text-indigo-700";
+
+  voterMessage.textContent = message;
+  voterMessage.classList.remove("hidden");
+}
+
+function loadElections() {
+  electionCards.innerHTML = "";
+  electionSelect.innerHTML = `<option value="">Select Election</option>`;
+
+  elections.forEach(election => {
+    electionCards.innerHTML += `
+      <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+        <h4 class="text-sm font-semibold text-gray-900">${election.title}</h4>
+        <p class="text-sm text-gray-500 mt-1">${election.description}</p>
+      </div>
+    `;
+
+    electionSelect.innerHTML += `
+      <option value="${election.id}">${election.title}</option>
+    `;
+  });
+}
+
+function loadRoles(electionId) {
+  roleSelect.innerHTML = `<option value="">Select Role</option>`;
+
+  const selectedElection = elections.find(election => election.id === electionId);
+
+  if (!selectedElection) {
+    roleSelect.innerHTML = `<option value="">Select election first</option>`;
+    return;
+  }
+
+  selectedElection.roles.forEach(role => {
+    roleSelect.innerHTML += `
+      <option value="${role.id}">${role.title}</option>
+    `;
+  });
+}
+
+electionSelect.addEventListener("change", function () {
+  loadRoles(this.value);
+});
+
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const electionId = electionSelect.value;
+  const roleId = roleSelect.value;
+  const statement = form.statement.value.trim();
+  const manifesto = form.manifesto.value.trim();
+  const experience = form.experience.value.trim();
+
+  if (!electionId || !roleId || !statement) {
+    showMessage("Please fill all required fields.", "error");
+    return;
+  }
+
+  const selectedElection = elections.find(election => election.id === electionId);
+  const selectedRole = selectedElection.roles.find(role => role.id === roleId);
+
+  const applications = JSON.parse(localStorage.getItem("candidateApplications")) || [];
+
+  const alreadyApplied = applications.some(app =>
+    app.email === currentUser.email &&
+    app.electionId === electionId &&
+    app.roleId === roleId
+  );
+
+  if (alreadyApplied) {
+    showMessage("You have already applied for this role.", "error");
+    return;
+  }
+
+  const application = {
+    id: "APP-" + Date.now(),
+    candidateName: currentUser.name,
+    email: currentUser.email,
+    electionId: electionId,
+    electionTitle: selectedElection.title,
+    roleId: roleId,
+    roleTitle: selectedRole.title,
+    statement: statement,
+    manifesto: manifesto,
+    experience: experience,
+    status: "Pending",
+    appliedAt: new Date().toLocaleString()
+  };
+
+  applications.push(application);
+  localStorage.setItem("candidateApplications", JSON.stringify(applications));
+
+  showMessage("Application submitted successfully. Waiting for admin approval.");
+  form.reset();
+  roleSelect.innerHTML = `<option value="">Select election first</option>`;
+});
+
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+loadElections();
+</script>
 </body>
 </html>
