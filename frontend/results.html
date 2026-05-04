@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results - NAU Voting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-[11px] font-bold tracking-tight flex-shrink-0">
+        NAU
+      </div>
+      <span class="text-sm font-medium text-gray-900">NAU Voting</span>
+    </div>
+    <div class="flex gap-2 flex-wrap">
+      <a href="admin-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Admin</a>
+      <a href="voter-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Voter</a>
+      <a href="candidate-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Candidate</a>
+      <a href="vote.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Vote</a>
+      <a href="results.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Results</a>
+      <button onclick="logout()" class="h-[34px] px-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium text-white transition-colors inline-flex items-center">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="flex-1 px-6 py-10 max-w-4xl mx-auto w-full">
+
+    <!-- Page Header -->
+    <div class="mb-8">
+      <span class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full mb-3">
+        <span class="w-1.5 h-1.5 bg-indigo-600 rounded-full"></span>
+        Election Results
+      </span>
+      <h1 class="text-3xl font-semibold text-gray-900 leading-snug mb-1">Result Dashboard</h1>
+      <p class="text-[15px] text-gray-500 leading-relaxed">View role-wise result calculations after admin publishes results.</p>
+    </div>
+
+    <!-- Alert -->
+    <div id="resultMessage" class="hidden mb-6 px-4 py-3 rounded-lg border border-indigo-100 bg-indigo-50 text-sm text-indigo-700"></div>
+
+    <!-- Election Selector Card -->
+    <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Select Election</label>
+          <select id="resultElectionSelect" onchange="loadSelectedResults()"
+            class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Result Status</label>
+          <p class="text-sm text-gray-500 mt-2.5">Visible after admin publishing</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Result Summary Cards -->
+    <section id="resultCards" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"></section>
+
+    <!-- Detailed Results Table -->
+    <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+      <h3 class="text-base font-semibold text-gray-900 mb-4">Detailed Result Table</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Role</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Candidate</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Votes</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3">Progress</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody" class="divide-y divide-gray-50">
+            <tr>
+              <td colspan="4" class="py-6 text-sm text-gray-400 text-center">Select an election.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/results.js"></script>
+</body>
+</html>

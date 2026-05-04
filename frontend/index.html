@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAU Internal Voting System</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-[11px] font-bold tracking-tight flex-shrink-0">
+        NAU
+      </div>
+      <span class="text-sm font-medium text-gray-900">NAU Voting</span>
+    </div>
+    <div class="flex gap-2">
+      <a href="login.html"
+        class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">
+        Login
+      </a>
+      <a href="register.html"
+        class="h-[34px] px-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium text-white transition-colors inline-flex items-center">
+        Create account
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <main class="flex-1 flex items-center justify-center px-6 py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl w-full items-center">
+
+      <!-- Left: Copy -->
+      <section>
+        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full mb-5">
+          <span class="w-1.5 h-1.5 bg-indigo-600 rounded-full"></span>
+          Secure Campus Elections
+        </span>
+        <h1 class="text-3xl font-semibold text-gray-900 leading-snug mb-4">
+          Transparent voting for NAU Campus Chapters.
+        </h1>
+        <p class="text-[15px] text-gray-500 leading-relaxed mb-8">
+          A professional internal election platform for candidate applications, verified voters, role-wise voting, admin monitoring, and result publishing.
+        </p>
+        <div class="flex gap-3 flex-wrap">
+          <a href="register.html"
+            class="h-10 px-5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] rounded-lg text-sm font-medium text-white transition-all inline-flex items-center">
+            Create account
+          </a>
+          <a href="login.html"
+            class="h-10 px-5 border border-gray-200 hover:bg-gray-50 rounded-lg text-sm font-medium text-gray-700 transition-colors inline-flex items-center">
+            Sign in
+          </a>
+        </div>
+      </section>
+
+      <!-- Right: Panel -->
+      <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <div class="grid grid-cols-2 gap-3 mb-6">
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">01</p>
+            <p class="text-sm font-medium text-gray-900">Create elections</p>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">02</p>
+            <p class="text-sm font-medium text-gray-900">Approve candidates</p>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">03</p>
+            <p class="text-sm font-medium text-gray-900">Vote once per role</p>
+          </div>
+          <div class="bg-gray-50 rounded-lg p-4">
+            <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">04</p>
+            <p class="text-sm font-medium text-gray-900">Publish results</p>
+          </div>
+        </div>
+
+        <hr class="border-gray-100 mb-5">
+
+        <p class="text-[11px] font-semibold text-gray-400 tracking-widest uppercase mb-3">System flow</p>
+        <div class="flex flex-wrap gap-2 items-center">
+          <span class="text-xs text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full">Admin creates</span>
+          <span class="text-xs text-gray-400">→</span>
+          <span class="text-xs text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full">Candidates apply</span>
+          <span class="text-xs text-gray-400">→</span>
+          <span class="text-xs text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full">Admin approves</span>
+          <span class="text-xs text-gray-400">→</span>
+          <span class="text-xs text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full">Voters vote</span>
+          <span class="text-xs text-gray-400">→</span>
+          <span class="text-xs text-gray-700 bg-gray-50 border border-gray-200 px-3 py-1 rounded-full">Results published</span>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+</body>
+</html>

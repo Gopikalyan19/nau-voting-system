@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - NAU Voting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="bg-white border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-[11px] font-bold tracking-tight flex-shrink-0">
+        NAU
+      </div>
+      <span class="text-sm font-medium text-gray-900">NAU Voting</span>
+    </div>
+    <div class="flex gap-2 flex-wrap">
+      <a href="admin-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Admin</a>
+      <a href="voter-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Voter</a>
+      <a href="candidate-dashboard.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Candidate</a>
+      <a href="vote.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Vote</a>
+      <a href="results.html" class="h-[34px] px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors inline-flex items-center">Results</a>
+      <button onclick="logout()" class="h-[34px] px-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-sm font-medium text-white transition-colors inline-flex items-center">Logout</button>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="flex-1 px-6 py-10 max-w-5xl mx-auto w-full">
+
+    <!-- Page Header -->
+    <div class="flex items-start justify-between gap-4 mb-8 flex-wrap">
+      <div>
+        <span class="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full mb-3">
+          <span class="w-1.5 h-1.5 bg-indigo-600 rounded-full"></span>
+          Admin Control Center
+        </span>
+        <h1 class="text-3xl font-semibold text-gray-900 leading-snug mb-1">Welcome, <span id="adminName">Admin</span></h1>
+        <p class="text-[15px] text-gray-500 leading-relaxed">Create elections, roles, approve candidates and publish results.</p>
+      </div>
+      <a href="results.html" class="h-10 px-5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] rounded-lg text-sm font-medium text-white transition-all inline-flex items-center flex-shrink-0">
+        View Results
+      </a>
+    </div>
+
+    <!-- Alert -->
+    <div id="adminMessage" class="hidden mb-6 px-4 py-3 rounded-lg border border-indigo-100 bg-indigo-50 text-sm text-indigo-700"></div>
+
+    <!-- Stats -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+      <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">Users</p>
+        <b id="totalUsers" class="text-2xl font-semibold text-gray-900">0</b>
+        <p class="text-xs text-gray-500 mt-0.5">Total Users</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">Elections</p>
+        <b id="totalElections" class="text-2xl font-semibold text-gray-900">0</b>
+        <p class="text-xs text-gray-500 mt-0.5">Elections</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">Candidates</p>
+        <b id="totalCandidates" class="text-2xl font-semibold text-gray-900">0</b>
+        <p class="text-xs text-gray-500 mt-0.5">Candidates</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+        <p class="text-[11px] font-semibold text-indigo-600 tracking-wide mb-1.5">Votes</p>
+        <b id="totalVotes" class="text-2xl font-semibold text-gray-900">0</b>
+        <p class="text-xs text-gray-500 mt-0.5">Votes Cast</p>
+      </div>
+    </section>
+
+    <!-- Create Election + Add Role -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+
+      <!-- Create Election -->
+      <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 class="text-base font-semibold text-gray-900 mb-5">Create Election</h3>
+        <form id="electionForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Election Title</label>
+            <input name="title" placeholder="NAU Campus Chapter Election 2026" required
+              class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Description</label>
+            <textarea name="description" placeholder="Purpose and instructions" rows="2"
+              class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"></textarea>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Chapter Name</label>
+              <input name="chapter_name" value="NAU Campus Chapter"
+                class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Venue</label>
+              <input name="venue" value="Online"
+                class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Start Time</label>
+              <input name="start_time" type="datetime-local" required
+                class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">End Time</label>
+              <input name="end_time" type="datetime-local" required
+                class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Status</label>
+            <select name="status"
+              class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+              <option value="draft">Draft</option>
+              <option value="active" selected>Active</option>
+            </select>
+          </div>
+          <button type="submit" class="h-10 px-5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] rounded-lg text-sm font-medium text-white transition-all inline-flex items-center">
+            Create Election
+          </button>
+        </form>
+      </div>
+
+      <!-- Add Role -->
+      <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 class="text-base font-semibold text-gray-900 mb-5">Add Election Role</h3>
+        <form id="roleForm" class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Select Election</label>
+            <select id="roleElectionId" name="election_id" required
+              class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"></select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Role Name</label>
+            <input name="role_name" placeholder="President / Vice President" required
+              class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Description</label>
+            <textarea name="description" placeholder="What is this role about?" rows="2"
+              class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Responsibilities</label>
+            <textarea name="responsibilities" placeholder="Responsibilities of this role" rows="2"
+              class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Eligibility</label>
+            <textarea name="eligibility" placeholder="Who can apply?" rows="2"
+              class="w-full px-3 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition resize-none"></textarea>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-500 uppercase tracking-widest mb-2">Max Winners</label>
+            <input name="max_winners" type="number" value="1" min="1"
+              class="w-full h-10 px-3 border border-gray-200 rounded-lg text-sm text-gray-900 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition">
+          </div>
+          <button type="submit" class="h-10 px-5 bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] rounded-lg text-sm font-medium text-white transition-all inline-flex items-center">
+            Add Role
+          </button>
+        </form>
+      </div>
+
+    </section>
+
+    <!-- Election Management Table -->
+    <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
+      <h3 class="text-base font-semibold text-gray-900 mb-4">Election Management</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Election</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Start</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">End</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Status</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Results</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="electionsBody" class="divide-y divide-gray-50"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Pending Candidates Table -->
+    <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm mb-6">
+      <h3 class="text-base font-semibold text-gray-900 mb-4">Pending Candidate Applications</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-gray-100">
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Candidate</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Election</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Role</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Statement</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3 pr-4">Status</th>
+              <th class="text-left text-xs font-semibold text-gray-500 uppercase tracking-widest pb-3">Action</th>
+            </tr>
+          </thead>
+          <tbody id="pendingBody" class="divide-y divide-gray-50"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+      <h3 class="text-base font-semibold text-gray-900 mb-4">Recent Activity</h3>
+      <div id="activityList" class="space-y-2"></div>
+    </section>
+
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
