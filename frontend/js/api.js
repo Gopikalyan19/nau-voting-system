@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://nau-voting-system.onrender.com';
+const API_BASE_URL = "https://nau-voting-system.onrender.com/api";
 
 function getToken(){ return localStorage.getItem('token'); }
 function getUser(){ try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; } }
