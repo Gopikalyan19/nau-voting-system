@@ -62,7 +62,10 @@ function renderVoterElections(elections) {
           <div class="mt-1"><span class="font-medium text-gray-700">Start</span><br>${formatDate(e.start_time)}</div>
           <div class="mt-1"><span class="font-medium text-gray-700">End</span><br>${formatDate(e.end_time)}</div>
         </div>
-       
+        <div class="flex items-center gap-2 pt-1 border-t border-gray-100 flex-wrap">
+          ${voteBtn}
+          <a href="results.html?election=${e.id}" class="h-9 px-4 border border-gray-200 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-50 transition-colors inline-flex items-center">View Results</a>
+        </div>
       </div>`;
   }).join('');
 }
